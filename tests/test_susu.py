@@ -20,7 +20,7 @@ class SusuGroupTests(unittest.TestCase):
             self.group.close_week()
         self.assertEqual(error.exception.dues, [("Esi", Decimal("20.00"))])
         self.assertEqual(self.group.payout_history, [])
-        self.assertIn("Esi: paid GHS 30.00; owes GHS 20.00", self.group.report())
+        self.assertIn("Esi: paid KHS 30.00; owes KHS 20.00", self.group.report())
 
     def test_full_payments_close_week_and_pay_join_order(self):
         for name in self.group.members:
@@ -92,7 +92,7 @@ class SusuGroupTests(unittest.TestCase):
         self.assertEqual(final_payout.recipient, "Esi")
         self.assertTrue(self.group.is_complete)
         self.assertIn("No active week", self.group.report())
-        self.assertNotIn("owes GHS", self.group.report())
+        self.assertNotIn("owes KHS", self.group.report())
         with self.assertRaisesRegex(ValueError, "completed"):
             self.group.close_week()
 

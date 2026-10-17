@@ -8,7 +8,7 @@ CENT = Decimal("0.01")
 
 
 def parse_money(value: str | Decimal) -> Decimal:
-    """Parse a positive GHS amount with no fractional pesewas."""
+    """Parse a positive KHS amount with no fractional pesewas."""
     try:
         amount = value if isinstance(value, Decimal) else Decimal(value.strip())
     except (InvalidOperation, ValueError, AttributeError):
@@ -52,7 +52,7 @@ class Payout:
 class WeekNotReadyError(ValueError):
     def __init__(self, dues: list[tuple[str, Decimal]]):
         self.dues = dues
-        details = ", ".join(f"{name} owes GHS {amount:.2f}" for name, amount in dues)
+        details = ", ".join(f"{name} owes KHS {amount:.2f}" for name, amount in dues)
         super().__init__(f"Week cannot close. {details}")
 
 
@@ -98,7 +98,7 @@ class SusuGroup:
         payment_cents = _to_cents(payment)
         owed_cents = self._weekly_cents - self._paid[key]
         if payment_cents > owed_cents:
-            raise ValueError(f"Payment exceeds the amount owed (GHS {_from_cents(owed_cents):.2f}).")
+            raise ValueError(f"Payment exceeds the amount owed (KHS {_from_cents(owed_cents):.2f}).")
 
         self._paid[key] += payment_cents
         self._has_started = True
@@ -134,7 +134,7 @@ class SusuGroup:
         status = "Complete" if self.is_complete else "Active"
         lines = [
             f"Group status: {status}",
-            f"Weekly contribution: GHS {self.weekly_contribution:.2f}",
+            f"Weekly contribution: KHS {self.weekly_contribution:.2f}",
             (
                 f"Current week: none (payout cycle completed after week {self.current_week - 1})"
                 if self.is_complete
@@ -150,12 +150,12 @@ class SusuGroup:
             for name in self.members:
                 paid = self._paid[name.casefold()]
                 if paid == self._weekly_cents:
-                    lines.append(f"  {name}: paid in full (GHS {_from_cents(paid):.2f})")
+                    lines.append(f"  {name}: paid in full (KHS {_from_cents(paid):.2f})")
                 else:
                     owed = self._weekly_cents - paid
                     lines.append(
-                        f"  {name}: paid GHS {_from_cents(paid):.2f}; "
-                        f"owes GHS {_from_cents(owed):.2f}"
+                        f"  {name}: paid KHS {_from_cents(paid):.2f}; "
+                        f"owes KHS {_from_cents(owed):.2f}"
                     )
 
         if not self.is_complete:
@@ -167,7 +167,7 @@ class SusuGroup:
         else:
             for payout in self.payout_history:
                 lines.append(
-                    f"  Week {payout.week}: {payout.recipient} received GHS {payout.amount:.2f}"
+                    f"  Week {payout.week}: {payout.recipient} received KHS {payout.amount:.2f}"
                 )
         return "\n".join(lines)
 
@@ -176,7 +176,7 @@ def run_cli() -> None:
     print("Susu Group Tracker")
     while True:
         try:
-            weekly_amount = input("Fixed weekly contribution in GHS: ")
+            weekly_amount = input("Fixed weekly contribution in KHS: ")
             group = SusuGroup(weekly_amount)
             break
         except ValueError as error:
@@ -198,14 +198,14 @@ def run_cli() -> None:
             elif choice == "2":
                 member = input("Member name or ID: ")
                 week = int(input("Week number: ").strip())
-                amount = input("Payment in GHS: ")
+                amount = input("Payment in KHS: ")
                 remaining = group.record_contribution(member, week, amount)
-                print(f"Contribution recorded. This member still owes GHS {remaining:.2f}.")
+                print(f"Contribution recorded. This member still owes KHS {remaining:.2f}.")
             elif choice == "3":
                 payout = group.close_week()
                 print(
                     f"Week {payout.week} closed. {payout.recipient} receives "
-                    f"GHS {payout.amount:.2f}."
+                    f"KHS {payout.amount:.2f}."
                 )
             elif choice == "4":
                 print(group.report())

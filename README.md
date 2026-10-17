@@ -1,6 +1,6 @@
-# Susu Group Tracker
+## Susu Group Tracker
 
-A small Python command-line program for tracking one rotating susu group. Members contribute the same fixed GHS amount each week. Once everyone has paid in full, the whole pot goes to the next member in join order.
+A small Python command-line program for tracking one rotating susu group. Members contribute the same fixed KHS amount each week. Once everyone has paid in full, the whole pot goes to the next member in join order.
 
 ## Requirements
 
@@ -27,4 +27,4 @@ The automated tests cover partial payments, blocked week closure and outstanding
 
 ## Example
 
-For three members paying GHS 50.00 each, the weekly pot is GHS 150.00. If Esi pays GHS 30.00, closing the week reports that Esi owes GHS 20.00 and does not pay out. After that balance is recorded, closing the week pays GHS 150.00 to Ama, the first member added.
+For three members paying KHS 50.00 each, the weekly pot is KHS 150.00. If Esi pays KHS 30.00, closing the week reports that Esi owes KHS 20.00 and does not pay out. After that balance is recorded, closing the week pays KHS 150.00 to Ama, the first member added.
