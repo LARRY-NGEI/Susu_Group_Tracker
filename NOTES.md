@@ -3,7 +3,7 @@
 ## Assumptions and decisions
 
 - A group is created at startup with one fixed, positive weekly contribution in GHS.
-- Names/IDs are trimmed and compared case-insensitively, so `Ama` and `ama` identify the same member; original spelling is retained for reports.
+- Names/IDs are trimmed and compared case-insensitively, so `Larry` and `larry` identify the same member; original spelling is retained for reports.
 - Members may be added until the first successful contribution. Membership is then frozen so the pot size and payout order do not change mid-cycle.
 - Contributions apply only to the current week. A member can make multiple partial payments, but each payment must be positive, no larger than the remaining balance, and exact to two decimal places.
 - A week cannot close until every member has paid the full contribution. A blocked close reports each unpaid balance and leaves the week and payout history unchanged.
@@ -12,9 +12,4 @@
 - Closing an empty group's week is rejected.
 - Amounts with more than two meaningful decimal places are rejected instead of rounded; all calculations use Python's `Decimal`.
 
-## Improvements with more time
 
-- Persist the group and payout history between program runs.
-- Add an exportable CSV report and a separate audit log of individual payments.
-- Add configurable cycles and a way to start a new cycle without losing past history.
-- Consider stronger member identifiers and a richer command interface for larger groups.
